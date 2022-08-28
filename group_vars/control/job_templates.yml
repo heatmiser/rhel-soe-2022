@@ -5,7 +5,7 @@ controller_templates:
     playbook: playbooks/server_register.yml
     inventory: SOE Inventory
     credentials:
-      - Workshop Credential
+      - SOE Credential
     limit: rhel7
     extra_vars:
       org_id: "Default_Organization"
@@ -110,7 +110,7 @@ controller_templates:
     inventory: RHEL7 Development
     use_fact_cache: true
     credentials:
-      - Workshop Credential
+      - SOE Credential
     limit: ''
     survey_enabled: true
     survey:
@@ -137,7 +137,7 @@ controller_templates:
     ask_limit_on_launch: true
     use_fact_cache: true
     credentials:
-      - Workshop Credential
+      - SOE Credential
     limit: ''
 
   - name: SERVER / Start node via ec2_node_tools
@@ -188,7 +188,7 @@ controller_templates:
     playbook: playbooks/upgrade_instance.yml
     inventory: RHEL7 Development
     credentials:
-      - Workshop Credential
+      - SOE Credential
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
 
@@ -198,7 +198,7 @@ controller_templates:
     playbook: playbooks/Configure_3TA_AWS.yml
     inventory: RHEL7 Development
     credentials:
-      - Workshop Credential
+      - SOE Credential
     extra_vars:
       pg_db_name: db01
       pg_db_user: user01
@@ -210,7 +210,7 @@ controller_templates:
     playbook: playbooks/SmokeTest_3TA_AWS.yml
     inventory: RHEL7 Development
     credentials:
-      - Workshop Credential
+      - SOE Credential
     extra_vars:
       pg_db_name: db01
       pg_db_user: user01
@@ -281,7 +281,7 @@ controller_templates:
     playbook: playbooks/node_details_via_ec2_node_tools.yml
     inventory: SOE Inventory
     credentials:
-      - Workshop Credential
+      - SOE Credential
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
       instances:
@@ -296,7 +296,7 @@ controller_templates:
     playbook: playbooks/refresh_route53_dns.yml
     inventory: SOE Inventory
     credentials:
-      - Workshop Credential
+      - SOE Credential
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
       instances:
