@@ -8,14 +8,6 @@
         validate_certs: false
 
 - hosts: "{{ HOSTS | default('satellite.example.com') }}"
-  become: true
-- name: satellite disconnected mode
-  import_playbook: satellite_disconnected_mode.yml
-  vars:
-    disconnected_mode: "false"
-  when: refresh_satellite_manifest
-
-- hosts: "{{ HOSTS | default('satellite.example.com') }}"
   connection: local
   gather_facts: no
   vars:
