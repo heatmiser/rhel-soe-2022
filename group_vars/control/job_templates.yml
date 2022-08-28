@@ -2,7 +2,7 @@
 controller_templates:
   - name: SERVER / RHEL7 - Register
     project: Automated Management
-    playbook: server_register.yml
+    playbook: playbooks/server_register.yml
     inventory: Workshop Inventory
     credentials:
       - Workshop Credential
@@ -27,37 +27,9 @@ controller_templates:
             - Prod
           required: true
 
-  - name: SERVER / CentOS7 - Register
-    project: Automated Management
-    playbook: server_register.yml
-    inventory: Workshop Inventory
-    credentials:
-      - Workshop Credential
-    limit: centos7
-    extra_vars:
-      org_id: "Default_Organization"
-      product_name_or_regex: "Community Enterprise OS 7"
-    survey_enabled: true
-    survey:
-      name: ''
-      description: ''
-      spec:
-        - question_name: Server Name or Pattern
-          type: text
-          variable: PREFIX
-          required: false
-        - question_name: Choose Environment
-          type: multiplechoice
-          variable: env
-          choices:
-            - Dev
-            - QA
-            - Prod
-          required: true
-
   - name: SATELLITE / RHEL - Publish Content View
     project: Automated Management
-    playbook: satellite_publish.yml
+    playbook: playbooks/satellite_publish.yml
     inventory: Workshop Inventory
     credentials:
       - Satellite Credential
@@ -72,30 +44,11 @@ controller_templates:
           variable: content_view
           type: multiplechoice
           choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^RHEL.*$') | map(attribute='name') | list}}"
-          required: true
-
-  - name: SATELLITE / CentOS - Publish Content View
-    project: Automated Management
-    playbook: satellite_publish.yml
-    inventory: Workshop Inventory
-    credentials:
-      - Satellite Credential
-    extra_vars:
-      env: Dev
-    survey_enabled: true
-    survey:
-      name: ''
-      description: ''
-      spec:
-        - question_name: Select Content View
-          variable: content_view
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
           required: true
 
   - name: SATELLITE / RHEL - Promote Content View
     project: Automated Management
-    playbook: satellite_promote.yml
+    playbook: playbooks/satellite_promote.yml
     inventory: Workshop Inventory
     credentials:
       - Satellite Credential
@@ -120,45 +73,18 @@ controller_templates:
           choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^RHEL.*$') | map(attribute='name') | list}}"
           required: true
 
-  - name: SATELLITE / CentOS - Promote Content View
-    project: Automated Management
-    playbook: satellite_promote.yml
-    inventory: Workshop Inventory
-    credentials:
-      - Satellite Credential
-    survey_enabled: true
-    survey:
-      name: ''
-      description: ''
-      spec:
-        - question_name: Select Content View
-          variable: content_view
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
-          required: true
-        - question_name: Current Lifecycle Environment
-          variable: current_lifecycle_environment
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
-          required: true
-        - question_name: Next Lifecycle Environment
-          variable: lifecycle_environment
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
-          required: true  
-
   - name: SATELLITE / Delete host(s) in "node_group"
     project: Automated Management
-    playbook: satellite_delete_host.yml
+    playbook: playbooks/satellite_delete_host.yml
     inventory: Workshop Inventory
     credentials:
       - Satellite Credential
     extra_vars:
-      node_group: env_CentOS7_Dev
+      node_group: env_RHEL7_Dev
 
   - name: SATELLITE / Transfer converted host(s) to another LE
     project: Automated Management
-    playbook: satellite_transfer_host.yml
+    playbook: playbooks/satellite_transfer_host.yml
     inventory: ALL Development
     credentials:
       - Satellite Credential
@@ -180,7 +106,7 @@ controller_templates:
 
   - name: SERVER / RHEL7 - Patch
     project: Automated Management
-    playbook: server_patch.yml
+    playbook: playbooks/server_patch.yml
     inventory: RHEL7 Development
     use_fact_cache: true
     credentials:
@@ -204,35 +130,9 @@ controller_templates:
             - 'no'
           required: true
 
-  - name: SERVER / CentOS7 - Patch
-    project: Automated Management
-    playbook: server_patch.yml
-    inventory: Workshop Inventory
-    use_fact_cache: true
-    credentials:
-      - Workshop Credential
-    limit: centos7
-    survey_enabled: true
-    survey:
-      name: ''
-      description: ''
-      spec:
-        - question_name: Select Environment
-          type: multiplechoice
-          variable: lifecycle_stage
-          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
-          required: true
-        - question_name: Check
-          type: multiplechoice
-          variable: check_only
-          choices:
-            - 'yes'
-            - 'no'
-          required: true
-
   - name: SERVER / RHEL7 - Fact Scan
     project: Fact Scan
-    playbook: scan_facts.yml
+    playbook: playbooks/scan_facts.yml
     inventory: RHEL7 Development
     ask_limit_on_launch: true
     use_fact_cache: true
@@ -240,20 +140,10 @@ controller_templates:
       - Workshop Credential
     limit: ''
 
-  - name: SERVER / CentOS7 - Fact Scan
-    project: Fact Scan
-    playbook: scan_facts.yml
-    inventory: Workshop Inventory
-    ask_limit_on_launch: true
-    use_fact_cache: true
-    credentials:
-      - Workshop Credential
-    limit: centos7
-
   - name: SERVER / Start node via ec2_node_tools
     description: Start node - selection via EC2 instance tags
     project: Automated Management
-    playbook: node_startup.yml
+    playbook: playbooks/node_startup.yml
     inventory: Workshop Inventory
     limit: control
     extra_vars:
@@ -267,7 +157,7 @@ controller_templates:
   - name: SERVER / Stop node via ec2_node_tools
     description: Stop node - selection via EC2 instance tags
     project: Automated Management
-    playbook: node_shutdown.yml
+    playbook: playbooks/node_shutdown.yml
     inventory: Workshop Inventory
     limit: control
     extra_vars:
@@ -281,7 +171,7 @@ controller_templates:
   - name: CONVERT2RHEL / 01 - Take node snapshot
     description: Take node snapshot - selection via EC2 instance tags
     project: Automated Management
-    playbook: snapshot_instance.yml
+    playbook: playbooks/snapshot_instance.yml
     inventory: Workshop Inventory
     limit: control
     extra_vars:
@@ -295,44 +185,18 @@ controller_templates:
   - name: CONVERT2RHEL / 02 - Upgrade OS to latest release
     description: Upgrade OS to latest available packages
     project: Automated Management
-    playbook: upgrade_instance.yml
-    inventory: CentOS7 Development
+    playbook: playbooks/upgrade_instance.yml
+    inventory: RHEL7 Development
     credentials:
       - Workshop Credential
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
 
-  - name: CONVERT2RHEL / 03 - convert2rhel
-    description: Convert OS to RHEL OS via targetted LE
-    project: Automated Management
-    playbook: c2r.yml
-    inventory: ALL Development
-    credentials:
-      - Workshop Credential
-    extra_vars:
-      org_id: "Default_Organization"
-      product_name_or_regex: "Red Hat Enterprise Linux Server"
-    survey_enabled: true
-    survey:
-      name: ''
-      description: ''
-      spec:
-        - question_name: Select CentOS Group to convert
-          variable: centos_lifecycle_environment
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
-          required: true
-        - question_name: Select target RHEL Group to convert to
-          variable: rhel_lifecycle_environment
-          type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^RHEL.*$') | map(attribute='name') | list}}"
-          required: true
-
   - name: CONVERT2RHEL / 96 - Three Tier App deployment
     description: Deploy three tier app
     project: Three Tier App / Dev
-    playbook: Configure_3TA_AWS.yml
-    inventory: CentOS7 Development
+    playbook: playbooks/Configure_3TA_AWS.yml
+    inventory: RHEL7 Development
     credentials:
       - Workshop Credential
     extra_vars:
@@ -343,8 +207,8 @@ controller_templates:
   - name: CONVERT2RHEL / 97 - Three Tier App smoke test
     description: Smoke test three tier app
     project: Three Tier App / Dev
-    playbook: SmokeTest_3TA_AWS.yml
-    inventory: CentOS7 Development
+    playbook: playbooks/SmokeTest_3TA_AWS.yml
+    inventory: RHEL7 Development
     credentials:
       - Workshop Credential
     extra_vars:
@@ -355,7 +219,7 @@ controller_templates:
   - name: CONVERT2RHEL / 98 - Revert node state via snapshot
     description: Revert via snapshot - selection via EC2 instance tags
     project: Automated Management
-    playbook: snapshot_revert.yml
+    playbook: playbooks/snapshot_revert.yml
     inventory: Workshop Inventory
     limit: control
     extra_vars:
@@ -364,12 +228,12 @@ controller_templates:
         tags:
           guid: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
           Student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
-          username: centos
+          username: ec2-user
 
   - name: CONVERT2RHEL / 99 - Delete snapshot
     description: Delete snapshot - selection via EC2 snapshot tags
     project: Automated Management
-    playbook: snapshot_delete.yml
+    playbook: playbooks/snapshot_delete.yml
     inventory: Workshop Inventory
     limit: control
     extra_vars:
@@ -382,7 +246,7 @@ controller_templates:
   - name: EC2 / Set instance tags based on Satellite(Foreman) facts
     description: Set instance tags - selection via existing EC2 instance tags
     project: Automated Management
-    playbook: query_satellite_resource_info_hosts_set_instance_tags.yml
+    playbook: playbooks/query_satellite_resource_info_hosts_set_instance_tags.yml
     inventory: Workshop Inventory
     credentials:
       - Satellite Credential
@@ -397,7 +261,7 @@ controller_templates:
   - name: EC2 / Set instance tag - AnsibleGroup
     description: Set instance tag - AnsibleGroup via provided extra_vars dict
     project: Automated Management
-    playbook: set_instance_tags.yml
+    playbook: playbooks/set_instance_tags.yml
     inventory: Workshop Inventory
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
@@ -414,7 +278,7 @@ controller_templates:
   - name: EC2 / Get instance details via ec2_node_tools role
     description: Utilize ec2_node_tools role to display info available per instance/node
     project: Automated Management
-    playbook: node_details_via_ec2_node_tools.yml
+    playbook: playbooks/node_details_via_ec2_node_tools.yml
     inventory: Workshop Inventory
     credentials:
       - Workshop Credential
@@ -429,7 +293,7 @@ controller_templates:
   - name: EC2 / Update Route53
     description: Update Route53 records with external IPs
     project: Automated Management
-    playbook: refresh_route53_dns.yml
+    playbook: playbooks/refresh_route53_dns.yml
     inventory: Workshop Inventory
     credentials:
       - Workshop Credential
@@ -441,16 +305,9 @@ controller_templates:
       student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
       workshop_dns_zone: "{{ lookup('env', 'AWX_HOST').split('.',2)[2] }}"
 
-  - name: CONTROLLER / Update CentOS7 Dev inventories
-    project: Automated Management
-    playbook: controller_inventory_source_update_centos7_dev.yml
-    inventory: Workshop Inventory
-    credentials:
-      - Controller Credential
-
   - name: CONTROLLER / Update inventories via dynamic sources
     project: Automated Management
-    playbook: controller_inventory_source_update.yml
+    playbook: playbooks/controller_inventory_source_update.yml
     inventory: Workshop Inventory
     credentials:
       - Controller Credential
