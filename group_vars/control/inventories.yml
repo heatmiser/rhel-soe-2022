@@ -1,6 +1,6 @@
 ---
 controller_inventories:
-  - name: Workshop Inventory
+  - name: SOE Inventory
     organization: Default
 
   - name: RHEL7 Development
@@ -31,7 +31,7 @@ controller_inventories:
 
 controller_inventory_sources:
   - name: satellite_source
-    inventory: Workshop Inventory
+    inventory: SOE Inventory
     credential: Inventory Credential
     source: satellite6
     update_on_launch: false
