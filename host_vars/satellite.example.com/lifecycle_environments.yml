@@ -14,17 +14,3 @@ lifecycle_environments:
     prior: "RHEL8_Dev"
   - name: "RHEL8_Prod"
     prior: "RHEL8_QA"
-  # Community Enterprise Linux 7
-  - name: "CentOS7_Dev"
-    prior: "Library"
-  - name: "CentOS7_QA"
-    prior: "CentOS7_Dev"
-  - name: "CentOS7_Prod"
-    prior: "CentOS7_QA"
-  # Community Enterprise Linux 8
-  - name: "CentOS8_Dev"
-    prior: "Library"
-  - name: "CentOS8_QA"
-    prior: "CentOS8_Dev"
-  - name: "CentOS8_Prod"
-    prior: "CentOS8_QA"
