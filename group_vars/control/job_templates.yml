@@ -271,9 +271,9 @@ controller_templates:
           Student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
           short_name: node*
       group_tag_map:
-        node4.example.com: frontends
-        node5.example.com: apps
-        node6.example.com: appdbs
+        node1.example.com: frontends
+        node2.example.com: apps
+        node3.example.com: appdbs
 
   - name: EC2 / Get instance details via ec2_node_tools role
     description: Utilize ec2_node_tools role to display info available per instance/node
