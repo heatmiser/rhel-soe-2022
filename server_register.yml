@@ -5,5 +5,12 @@
     env: Dev
     activation_key: undef
     sat_url: satellite.example.com
+  pre_tasks:
+    # Unregister from subscription manager
+    - name: Unregister from Subscription Manager, if registered
+      redhat_subscription:
+        state: absent
+    - name: subscription-manager clean
+      command: subscription-manager clean
   roles:
     - rhsm_register
