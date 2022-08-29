@@ -13,6 +13,16 @@ controller_inventories:
           guid: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
           Student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
 
+  - name: RHEL7 Testing
+    organization: Default
+    variables:
+      instances:
+        tags:
+          ContentView: RHEL7
+          Environment: Test
+          guid: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
+          Student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
+
   - name: RHEL7 Production
     organization: Default
     variables:
@@ -74,15 +84,15 @@ controller_inventory_sources:
     update_on_launch: false
     update_cache_timeout: 0
 
-  - name: EC2 Dynamic Source - RHEL7 Development - ALL
-    inventory: ALL Development
+  - name: EC2 Dynamic Source - RHEL7 Testing
+    inventory: RHEL7 Testing
     source: ec2
     source_vars:
       regions:
         - "{{ workshop_ec2_region }}"
       filters:
         tag:ContentView: RHEL7
-        tag:Environment: Dev
+        tag:Environment: Test
         tag:Student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
         tag:guid: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
       hostnames:
