@@ -63,22 +63,3 @@
       | list }}"
       wait: yes
     when: instances_details is not none
-
-  - name: route53 attendance dns update
-    become: no
-    vars:
-      attendance_dns_record_state: present
-    route53:
-      state: "{{ attendance_dns_record_state }}"
-      zone: "{{ workshop_dns_zone }}"
-      record: "{{ instances.tags.scenario | lower }}.{{ workshop_dns_zone }}"
-      type: A
-      overwrite: yes
-      value: "{{ instances_details.instances
-      | selectattr('tags.short_name', 'equalto', 'attendance-host')
-      | map(attribute='public_ip_address')
-      | list }}"
-      wait: yes
-    when:
-      - instances_details is not none
-      - student == 'soe1'
