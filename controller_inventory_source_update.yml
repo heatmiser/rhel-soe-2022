@@ -14,8 +14,8 @@
     when: env == "Dev"
 
   - set_fact:
-      environment_name_expanded: "QA"
-    when: env == "QA"
+      environment_name_expanded: "Test"
+    when: env == "Test"
 
   - set_fact:
       environment_name_expanded: "Production"

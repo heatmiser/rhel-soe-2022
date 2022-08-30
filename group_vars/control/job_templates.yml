@@ -23,7 +23,7 @@ controller_templates:
           variable: env
           choices:
             - Dev
-            - QA
+            - Test
             - Prod
           required: true
 
@@ -326,6 +326,6 @@ controller_templates:
           variable: env
           choices:
             - Dev
-            - QA
+            - Test
             - Prod
           required: true
