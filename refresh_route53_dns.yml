@@ -81,4 +81,4 @@
       wait: yes
     when:
       - instances_details is not none
-      - student == 'student1'
+      - student == 'soe1'
