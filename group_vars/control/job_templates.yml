@@ -301,7 +301,7 @@ controller_templates:
       ec2_region: "{{ workshop_ec2_region }}"
       instances:
         tags:
-          Workshop: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
+          scenario: "{{ lookup('env', 'AWX_HOST' ).split('.')[1] }}"
       student: "{{ lookup('env', 'AWX_HOST').split('.')[0] | urlsplit('hostname') }}"
       workshop_dns_zone: "{{ lookup('env', 'AWX_HOST').split('.',2)[2] }}"
 
