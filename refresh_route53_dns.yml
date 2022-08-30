@@ -17,7 +17,7 @@
     route53:
       state: "{{ controller_dns_record_state }}"
       zone: "{{ workshop_dns_zone }}"
-      record: "{{ student }}.{{ instances.tags.Workshop | lower }}.{{ workshop_dns_zone }}"
+      record: "{{ student }}.{{ instances.tags.scenario | lower }}.{{ workshop_dns_zone }}"
       type: A
       overwrite: yes
       value: "{{ instances_details.instances
@@ -35,7 +35,7 @@
     route53:
       state: "{{ code_dns_record_state }}"
       zone: "{{ workshop_dns_zone }}"
-      record: "{{ student }}-code.{{ instances.tags.Workshop | lower }}.{{ workshop_dns_zone }}"
+      record: "{{ student }}-code.{{ instances.tags.scenario | lower }}.{{ workshop_dns_zone }}"
       type: A
       overwrite: yes
       value: "{{ instances_details.instances
@@ -53,7 +53,7 @@
     route53:
       state: "{{ satellite_dns_record_state }}"
       zone: "{{ workshop_dns_zone }}"
-      record: "{{ student }}-sat.{{ instances.tags.Workshop | lower }}.{{ workshop_dns_zone }}"
+      record: "{{ student }}-sat.{{ instances.tags.scenario | lower }}.{{ workshop_dns_zone }}"
       type: A
       overwrite: yes
       value: "{{ instances_details.instances
@@ -71,7 +71,7 @@
     route53:
       state: "{{ attendance_dns_record_state }}"
       zone: "{{ workshop_dns_zone }}"
-      record: "{{ instances.tags.Workshop | lower }}.{{ workshop_dns_zone }}"
+      record: "{{ instances.tags.scenario | lower }}.{{ workshop_dns_zone }}"
       type: A
       overwrite: yes
       value: "{{ instances_details.instances
