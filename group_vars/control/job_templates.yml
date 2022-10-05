@@ -192,6 +192,14 @@ controller_templates:
     extra_vars:
       ec2_region: "{{ workshop_ec2_region }}"
 
+  - name: CONVERT2RHEL / 95 - Three Tier App stack bounce
+    description: Bounce three tier app
+    project: Three Tier App / Dev
+    playbook: Bounce_3TA_AWS.yml
+    inventory: RHEL7 Development
+    credentials:
+      - SOE Credential
+
   - name: CONVERT2RHEL / 96 - Three Tier App deployment
     description: Deploy three tier app
     project: Three Tier App / Dev
